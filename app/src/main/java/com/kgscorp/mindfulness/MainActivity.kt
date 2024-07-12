@@ -14,6 +14,10 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.kgscorp.mindfulness.ui.theme.MindfulnessTheme
 import com.kgscorp.mindfulness.ui.theme.interFontFamily
 
@@ -22,23 +26,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MindfulnessTheme {
-                val backgroundColor = MaterialTheme.colorScheme.background
+                val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Box() {
-                        DynamicText(
-                            text = "Dynamic color test",
-                            backgroundColor = backgroundColor,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            modifier = Modifier.align(Alignment.Center)
-                        )
+                    NavHost(navController = navController, startDestination = "mainScreen") {
+                        composable("mainScreen") { mainScreen(navController) }
                     }
                 }
             }
         }
     }
 }
+@Composable
+fun mainScreen(navController: NavController){
+    Box() {
+        val backgroundColor = MaterialTheme.colorScheme.background
+        DynamicText(
+            text = "Dynamic color test",
+            backgroundColor = backgroundColor,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}
+
 fun getContrastingColor(backgroundColor: Color): Color {
     val luminance = backgroundColor.luminance()
     return if (luminance > 0.5) Color.Black else Color.White
