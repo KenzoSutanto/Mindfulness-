@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -31,23 +34,60 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     NavHost(navController = navController, startDestination = "mainScreen") {
                         composable("mainScreen") { mainScreen(navController) }
+                        composable("Recommendations") {
+                            Recommendations(navController = navController) {
+                                navController.popBackStack()
+                            }
+                        }
+                        composable(route = "settings") {
+                            settings(navController = navController) {
+                                navController.popBackStack()
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun mainScreen(navController: NavController){
-    Box() {
-        val backgroundColor = MaterialTheme.colorScheme.background
-        DynamicText(
-            text = "Dynamic color test",
-            backgroundColor = backgroundColor,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier.align(Alignment.Center)
-        )
+fun mainScreen(navController: NavController) {
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        onClick = { navController.navigate("settings") },
+                        modifier = Modifier.size(50.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Settings",
+                            modifier = Modifier.size(45.dp)
+                        )
+                    }
+                }
+            }
+        }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            val backgroundColor = MaterialTheme.colorScheme.background
+            DynamicText(
+                text = "Dynamic color test",
+                backgroundColor = backgroundColor,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
