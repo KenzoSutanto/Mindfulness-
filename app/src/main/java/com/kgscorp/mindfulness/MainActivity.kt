@@ -64,6 +64,17 @@ fun mainScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    // Button to navigate to Recommendations
+                    Button(
+                        onClick = { navController.navigate("Recommendations") },
+                        modifier = Modifier.size(150.dp, 50.dp)
+                    ) {
+                        Text("Recommendations")
+                    }
+
+                    // Spacer for layout
+                    Spacer(modifier = Modifier.width(16.dp))
+
                     IconButton(
                         onClick = { navController.navigate("settings") },
                         modifier = Modifier.size(50.dp)
@@ -103,6 +114,7 @@ fun DynamicText(
     fontFamily: FontFamily? = interFontFamily,
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize: androidx.compose.ui.unit.TextUnit = 16.sp,
+    color: Color = Color.Black,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     val textColor = getContrastingColor(backgroundColor)
